@@ -1,6 +1,6 @@
 html, body{
 	font-family: 'Roboto', sans-serif;
-	font-size: 14px;
+	font-size: 20px;
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
@@ -26,14 +26,14 @@ md-list-item > button {
 	position: relative;
 	width: 128px;
 	height: 128px;
-	border: 1px solid #ddd;
+	border: 2px solid #ddd;
 	border-radius: 50%;
 	display: inline-block;
 	overflow: hidden;
 	margin: 0px;
 	vertical-align: middle;
-	zoom: 0.70;
-	transform: transalateZ(0);
+	zoom: 0.50;
+	transform: translateZ(0);
 	-webkit-transform: scale(0.70);
 	-moz-transform: scale(0.70);
 }
