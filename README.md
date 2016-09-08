@@ -22,3 +22,12 @@ http://localhost:8080/job_positions
 ### Para acceder a la pagina en angular:
 
 http://localhost:8080/jobify
+
+##CORRER CON HEROKU
+Para correr los comandos que se especifican a continuacion es necesario tener heroku instalado.
+
+Ver: https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up
+
+###para correr la aplicacion localmente con heroku correr en la consola:
+
+heroku local web
