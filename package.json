@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "shared server para la aplicacion jobify",
   "main": "app.js",
+  "engines": {
+	"node": "5.12.0"
   "scripts": {
     "test": "test"
   },
