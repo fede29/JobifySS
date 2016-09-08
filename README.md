@@ -31,3 +31,9 @@ Ver: https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up
 ###para correr la aplicacion localmente con heroku correr en la consola:
 
 heroku local web
+
+###para correr la aplicacion en la nube:
+
+heroku open
+
+
