@@ -15,13 +15,15 @@ npm install
 
 node app.js
 
+###Acceso mediante el browser:
+
+http://localhost:5000/
+
+Nos mostrara la pagina principal.
+
 ### La direccion para listar job positions:
 
-http://localhost:8080/job_positions
-
-### Para acceder a la pagina en angular:
-
-http://localhost:8080/jobify
+http://localhost:5000/job_positions
 
 ##CORRER CON HEROKU
 Para correr los comandos que se especifican a continuacion es necesario tener heroku instalado.
@@ -32,8 +34,14 @@ Ver: https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up
 
 heroku local web
 
-###para correr la aplicacion en la nube:
+funciona igual que si lo corremos localmente con el comando node 
+
+###para abrir la aplicacion que corre en heroku:
 
 heroku open
+
+###O podemos acceder manualmente en el browser:
+
+https://still-falls-40635.herokuapp.com
 
 
