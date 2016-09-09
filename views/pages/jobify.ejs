@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<link rel="stylesheet" href="node_modules/angular-material/angular-material.min.css">
-		<link rel="stylesheet" href="app.css">
-		
-		<script src = "node_modules/angular/angular.min.js"></script>
-		<script src = "node_modules/angular-animate/angular-animate.js"></script>
-		<script src = "node_modules/angular-aria/angular-aria.min.js"></script>
-		<script src = "node_modules/angular-material/angular-material.min.js"></script>
-		<script src = "Users.js"></script>
-		<script src = "UsersService.js"></script>
-		<script src = "UserController.js"></script>
-		
-	</head>
-	<body ng-app="MyApp" layout="column">
+<head>
+	<%include ../partials/header.ejs%>
+
+	<link rel="stylesheet" href="node_modules/angular-material/angular-material.min.css">
+	<link rel="stylesheet" href="stylesheets/app.css">
+
+	<script src = "node_modules/angular/angular.min.js"></script>
+	<script src = "node_modules/angular-animate/angular-animate.js"></script>
+	<script src = "node_modules/angular-aria/angular-aria.min.js"></script>
+	<script src = "node_modules/angular-material/angular-material.min.js"></script>
+	<script src = "Users.js"></script>
+	<script src = "UsersService.js"></script>
+	<script src = "UserController.js"></script>
+	
+</head>
+
+<body ng-app="MyApp" layout="column">
 	<md-toolbar>
 		<h1>Jobify Shared Server</h1>
 	</md-toolbar>
@@ -55,5 +58,5 @@
 			console.log("MyApp is ready!");
 		});
 	</script>
-	</body>
+</body>
 </html>

@@ -16,14 +16,12 @@ app.set('view engine', 'ejs');
 //esto hay que cambiar ->
 app.use('/node_modules', express.static(__dirname + "/node_modules"));
 app.use('/images', express.static(__dirname + "/images"));
-app.use('/', express.static(__dirname));
+//app.use('/', express.static(__dirname));
 //<-
 
-app.get('/jobify', function(request, response){
-	response.sendFile(__dirname + "/" + "Jobify.html");
-});
 
-app.get('/index.html', function(request, response){
+//solo de prueba ->
+app.get('/test', function(request, response){
 	response.sendFile(__dirname + "/" + "index.html");
 });
 
@@ -49,11 +47,20 @@ app.get("/job_positions", function(request, response){
 	pos = positions;
 	response.end(JSON.stringify(pos));
 });		
+//<-
+
+
+//inicio de app
+app.get('/', function(request, response){
+	response.render('pages/jobify');
+});
 
 app.listen(app.get('port'), function() {
 	console.log('Node app is running on port', app.get('port'));
 });
 
+
+//posiciones hardcodeadas
 var positions = [{
 	"name": "developer",
 	"description": "a software developer",
