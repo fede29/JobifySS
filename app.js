@@ -42,12 +42,12 @@ app.post("/process_post", urlencodedParser, function(request, response){
 	console.log(res);
 	response.end(JSON.stringify(res));
 });
+//<-
 
 app.get("/job_positions", function(request, response){
 	pos = positions;
 	response.end(JSON.stringify(pos));
-});		
-//<-
+});
 
 
 //inicio de app
