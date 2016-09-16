@@ -1,6 +1,13 @@
 var express = require('express');
 var pg = require('pg');
 var app = express();
+var massive  = require('massive');
+var connectionString = process.env.DATABASE_URL
+
+var massiveInstance = massive.connectSync({connectionString: connectionString});
+
+
+//connect to database
 
 var bodyParser = require ('body-parser');
 var urlencodedParser = bodyParser.urlencoded({extended: false});
@@ -36,8 +43,8 @@ app.get("/process_get", function(request, response){
 
 app.post("/process_post", urlencodedParser, function(request, response){	
 	res = {
-	first_name: request.body.first_name,
-	last_name: request.body.last_name
+		first_name: request.body.first_name,
+		last_name: request.body.last_name
 	};
 	console.log(res);
 	response.end(JSON.stringify(res));
