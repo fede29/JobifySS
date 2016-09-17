@@ -2,12 +2,12 @@ var express = require('express');
 var pg = require('pg');
 var app = express();
 var massive  = require('massive');
-var connectionString = process.env.DATABASE_URL
+//var connectionString = process.env.DATABASE_URL;
+var connectionString = process.env.DATABASE_URL || "postgres://fedelonghi:admin123@localhost/localdb";
 
 var massiveInstance = massive.connectSync({connectionString: connectionString});
 
-
-//connect to database
+app.set('db', massiveInstance);
 
 var bodyParser = require ('body-parser');
 var urlencodedParser = bodyParser.urlencoded({extended: false});
