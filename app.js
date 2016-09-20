@@ -8,6 +8,13 @@ var connectionString = process.env.DATABASE_URL || "postgres://fedelonghi:admin1
 var massiveInstance = massive.connectSync({connectionString: connectionString});
 
 app.set('db', massiveInstance);
+var db = app.get('db');
+
+var new_jpos = {
+	name : 'test_name',
+	description : 'test_description',
+	category: 'test_category'
+};
 
 var bodyParser = require ('body-parser');
 var urlencodedParser = bodyParser.urlencoded({extended: false});
@@ -60,6 +67,10 @@ app.get("/job_positions", function(request, response){
 //inicio de app
 app.get('/', function(request, response){
 	response.render('pages/jobify');
+});
+
+app.get('/nv', function(request, response){
+	response.render('pages/nv');
 });
 
 app.listen(app.get('port'), function() {
