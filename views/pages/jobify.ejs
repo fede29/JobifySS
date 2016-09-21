@@ -15,10 +15,15 @@
 
 <body ng-app="MyApp" layout="column">
 	<md-toolbar>
-		<h1>Jobify Shared Server</h1>
+		<div class="md-toolbar-tools">
+			<md-icon md-svg-src="images/logo.svg" class="logo"></md-icon>
+			<span>Jobify Shared Server</span>
+			<span flex></span>
+			<md-button>Menu</md-button>
+		</div>
 	</md-toolbar>
 	
-	<div  class="container" layout="row" flex>
+	<div class="container" layout="row" flex>
 		<md-sidenav md-is-locked-open="true" class="md-whiteframe-5dp">
 			<md-list>
 				<md-list-item>

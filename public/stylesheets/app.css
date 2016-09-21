@@ -4,6 +4,7 @@ html, body{
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
+	
 }
 
 /* Toolbar */
@@ -17,11 +18,16 @@ html, body{
 
 md-toolbar h1 {
 	margin: auto;
+	
+}
+
+md-toolbar .title {
+	background-color: #2477ab;
 }
 
 /* Sidenav */
 
-md-list  .md-button {
+md-list .md-button {
 	color: inherit;
 	font-weight: 500;
 	text-align: left;
@@ -58,6 +64,22 @@ md-sidenav md-list {
 	height: 128px;
 	border: 2px solid #ddd;
 	border-radius: 50%;
+	display: inline-block;
+	overflow: hidden;
+	margin: 0px;
+	vertical-align: middle;
+	zoom: 0.50;
+	transform: translateZ(0);
+	-webkit-transform: scale(0.70);
+	-moz-transform: scale(0.70);
+}
+
+.logo  {
+	position: relative;
+	width: 128px;
+	height: 128px;
+	border: 5px solid #ddd;
+	border-radius: 20%;
 	display: inline-block;
 	overflow: hidden;
 	margin: 0px;
