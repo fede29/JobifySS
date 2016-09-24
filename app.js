@@ -1,29 +1,44 @@
+//begin express
 var express = require('express');
+var app = express();
+//require
 var pg = require('pg');
 var massive  = require('massive');
-var bodyParser = require ('body-parser');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var serveStatic = require('serve-static');
 var multer = require('multer');
 
+//routes
+var routes = require('./routes/index');
+var job_positions = require('./routes/job_positions');
+var categories = require('./routes/categories');
+var skills = require('./routes/skills');
+
+
+//configuration file
 var config = require('./config.json');
-
-var connectionString = process.env.DATABASE_URL || "postgres://"+config.postgres.user+":"+config.postgres.password+"@"+config.postgres.host+"/"+config.postgres.db;
-
+//connection to database
+var localdb_url = "postgres://"+config.postgres.user+":"+config.postgres.password+"@"+config.postgres.host+"/"+config.postgres.db;
+var connectionString = process.env.DATABASE_URL || localdb_url;
 var massiveInstance = massive.connectSync({connectionString: connectionString});
+//body parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
-var app = express();
+//======================================================================
+//express configuration
 
 app.set('db', massiveInstance);
-
-var urlencodedParser = bodyParser.urlencoded({extended: false});
-
 app.set('port', (process.env.PORT || 5000));
-
-app.use(express.static(__dirname + '/public'));
-
-// setting views
+//setting views
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+
+app.use(express.static(__dirname + '/public'));
 
 //esto hay que cambiar ->
 app.use('/node_modules', express.static(__dirname + "/node_modules"));
@@ -38,31 +53,14 @@ var handleError = function(res){
 }
 
 var db = app.get('db');
-/*
-db.job_positions.find({name : "developer"}, function(err, res){
-	console.log(res);
+
+app.use(function(request, response, next){
+	request.db = db;
+	next();
 });
 
-var new_jpos = {
-	name : 'test_name',
-	description : 'test_description',
-	category: 'test_category'
-};
+app.use('/',routes,job_positions,categories,skills);
 
-db.job_positions.save(new_jpos, function(err, result){
-	console.log(result);
-});
-
-db.job_positions.find({name:"test_name"}, function(err, res){
-	console.log(res);
-});
-
-db.query("SELECT * FROM job_positions", function(err, data){
-	//res.status(200).send(data);
-	console.log(data);
-});
-
-*/
 //solo de prueba ->
 app.get('/test', function(request, response){
 	response.sendFile(__dirname + "/" + "index.html");
@@ -77,7 +75,7 @@ app.get("/process_get", function(request, response){
 	response.end(JSON.stringify(res));
 });
 
-app.post("/process_post", urlencodedParser, function(request, response){	
+app.post("/process_post", function(request, response){	
 	res = {
 		first_name: request.body.first_name,
 		last_name: request.body.last_name
@@ -87,31 +85,7 @@ app.post("/process_post", urlencodedParser, function(request, response){
 });
 //<-
 
-app.get("/job_positions", function(request, response){
-	db.query("SELECT * FROM job_positions", function (err, data){
-		response.status(200).send(data);
-	});
-});
-
-app.get("/categories", function(request, response){
-	db.query("SELECT * FROM categories", function (err, data){
-		response.status(200).send(data);
-	});
-});
-
-app.get("/skills", function(request, response){
-	db.query("SELECT * FROM skills", function (err, data){
-		response.status(200).send(data);
-	});
-});
-	
-
-
-//inicio de app
-app.get('/', function(request, response){
-	response.render('pages/jobify');
-});
-
+//start listening
 app.listen(app.get('port'), function() {
 	console.log('Node app is running on port', app.get('port'));
 });

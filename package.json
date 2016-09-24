@@ -36,9 +36,11 @@
     "express": "^4.14.0",
     "massive": "^2.5.0",
     "mocha": "^3.0.2",
+    "morgan": "^1.7.0",
     "multer": "^1.2.0",
     "pg": "4.x",
     "request": "^2.74.0",
+    "serve-favicon": "^2.3.0",
     "vows": "^0.8.1"
   }
 }
