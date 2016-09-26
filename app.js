@@ -45,6 +45,8 @@ app.use('/node_modules', express.static(__dirname + "/node_modules"));
 app.use('/images', express.static(__dirname + "/images"));
 //<-
 
+var db = app.get('db');
+
 var handleError = function(res){
 	return function(err){
 		console.log(err);
@@ -52,9 +54,8 @@ var handleError = function(res){
 	}
 }
 
-var db = app.get('db');
-
-app.use(function(request, response, next){
+//para  uso de la base de datos
+app.use(function(request, response, next){ //hay que cambiar para que lo use solo cuando lo necesita.
 	request.db = db;
 	next();
 });
