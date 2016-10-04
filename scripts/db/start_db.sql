@@ -1,9 +1,12 @@
-drop database if exists localdb;
+/*drop database if exists localdb;*/
 
-create database localdb;
-
+/*create database localdb;*/
 
 /* Creo las tablas */
+drop table if exists job_positions;
+drop table if exists skills;
+drop table if exists categories;
+
 CREATE TABLE job_positions(
 	name text NOT NULL,
 	description text,

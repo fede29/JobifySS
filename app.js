@@ -29,8 +29,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-//======================================================================
-//express configuration
+
+//========express configuration=============//
 
 app.set('db', massiveInstance);
 app.set('port', (process.env.PORT || 5000));
@@ -62,29 +62,7 @@ app.use(function(request, response, next){ //hay que cambiar para que lo use sol
 
 app.use('/',routes,job_positions,categories,skills);
 
-//solo de prueba ->
-app.get('/test', function(request, response){
-	response.sendFile(__dirname + "/" + "index.html");
-});
-
-app.get("/process_get", function(request, response){
-	res = {
-		first_name: request.query.first_name,
-		last_name: request.query.last_name,
-	};
-	console.log(res);
-	response.end(JSON.stringify(res));
-});
-
-app.post("/process_post", function(request, response){	
-	res = {
-		first_name: request.body.first_name,
-		last_name: request.body.last_name
-	};
-	console.log(res);
-	response.end(JSON.stringify(res));
-});
-//<-
+//===========================================================================//
 
 //start listening
 app.listen(app.get('port'), function() {
