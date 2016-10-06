@@ -6,7 +6,7 @@ router.get("/skills", function(req, res, next){
 	req.db.query("SELECT * FROM skills", function (err, skills){
 		var metadata={
 			version:0.1,
-			count:1
+			count:skills.length
 		};
 		var data={
 			skills,
@@ -21,7 +21,7 @@ router.get("/skills/categories/:category", function(req, res, next){
 	req.db.skills.find({category:req.params.category}, function(err, skills){
 		var metadata={
 			version:0.1,
-			count:1
+			count:skills.length
 		};
 		var data = {
 			skills,

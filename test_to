@@ -1,0 +1,53 @@
+Job Positions:
+	listado -> ok
+	listado -> unexpected error
+	listado -> vacio
+	l cat -> ok
+	l cat -> categoria inexistente
+	l cat -> unexpected error
+	alta -> ok
+	alta -> incumplimiento de condiciones
+	alta -> categoria inexistente
+	alta -> unexpected error
+	modificacion -> ok
+	modificacion -> incumplimiento de precondiciones
+	modificacion -> no existe el recuros solicitado
+	modificacion -> unexpected error
+	baja -> ok
+	baja -> no existe el recurso solicitado
+	baja -> unexpected error
+
+Skills:
+	listado -> ok
+	listado -> unexpected error
+	listado -> vacio
+	l cat -> ok
+	l cat -> categoria inexistente
+	l cat -> unexpected error
+	alta -> ok
+	alta -> incumplimiento de condiciones
+	alta -> categoria inexistente
+	alta -> unexpected error
+	modificacion -> ok
+	modificacion -> incumplimiento de precondiciones
+	modificacion -> no existe el recuros solicitado
+	modificacion -> unexpected error
+	baja -> ok
+	baja -> no existe el recurso solicitado
+	baja -> unexpected error
+
+Categorias:	
+	listado -> ok
+	listado -> unexpected error
+	listado -> vacio
+	alta -> ok
+	alta -> incumplimiento de condiciones
+	alta -> unexpected error
+	modificacion -> ok
+	modificacion -> incumplimiento de precondiciones
+	modificacion -> no existe el recuros solicitado
+	modificacion -> unexpected error
+	baja -> ok
+	baja -> no existe el recurso solicitado
+	baja -> unexpected error
+ 

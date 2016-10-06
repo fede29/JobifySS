@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-
+8
 //========express configuration=============//
 
 app.set('db', massiveInstance);
@@ -45,16 +45,17 @@ app.use('/node_modules', express.static(__dirname + "/node_modules"));
 app.use('/images', express.static(__dirname + "/images"));
 //<-
 
-var db = app.get('db');
+//error handling
+function errorHandler(err,req,res,next) {
+	res.status(500);
+	res.render('Error', {error: err});
+};
 
-var handleError = function(res){
-	return function(err){
-		console.log(err);
-		res.send(500,{error: err.message});
-	}
-}
+app.use(errorHandler);
 
 //para  uso de la base de datos
+var db = app.get('db');
+
 app.use(function(request, response, next){ //hay que cambiar para que lo use solo cuando lo necesita.
 	request.db = db;
 	next();

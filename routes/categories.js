@@ -3,7 +3,15 @@ var router = express.Router();
 
 //Listar todo
 router.get("/categories", function(request, response){
-	request.db.query("SELECT * FROM categories", function (err, data){
+	request.db.query("SELECT * FROM categories", function (err, categories){
+		var metadata = {
+			version:0.1,
+			count:categories.length
+		};
+		var data = {
+			categories,
+			metadata
+		};
 		response.status(200).send(data);
 	});
 });

@@ -4,9 +4,12 @@ var router = express.Router();
 //listar todo
 router.get('/job_positions',function(req,res,next){
 	req.db.query("SELECT * FROM job_positions", function (err, job_positions){
+		if (err){
+			return next(err);
+		}
 		var metadata={
 			version:0.1,
-			count:1
+			count:job_positions.length
 		};
 		var data = {
 			job_positions,
@@ -22,7 +25,7 @@ router.get('/job_positions/categories/:category',function(req,res,next){
 	req.db.job_positions.find({category:req.params.category}, function(err, job_positions){
 		var metadata={
 			version:0.1,
-			count:1
+			count:job_positions.length
 		};
 		var data = {
 			job_positions,
