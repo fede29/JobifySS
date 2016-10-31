@@ -4,7 +4,6 @@ html, body{
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
-	
 }
 
 /* Toolbar */
@@ -90,3 +89,10 @@ md-sidenav md-list {
 	-moz-transform: scale(0.70);
 }
 
+.carddemoBasicUsage .card-media {
+  background-color: #999999;
+}
+
+.contentTitle {
+    background-color: transparent;
+}

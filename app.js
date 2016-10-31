@@ -17,19 +17,21 @@ var job_positions = require('./routes/job_positions');
 var categories = require('./routes/categories');
 var skills = require('./routes/skills');
 
-
 //configuration file
 var config = require('./config.json');
 //connection to database
+console.log("Connecting to DB...");
 var localdb_url = "postgres://"+config.postgres.user+":"+config.postgres.password+"@"+config.postgres.host+"/"+config.postgres.db;
 var connectionString = process.env.DATABASE_URL || localdb_url;
 var massiveInstance = massive.connectSync({connectionString: connectionString});
+
+console.log("Configuring App...");
 //body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-8
+
 //========express configuration=============//
 
 app.set('db', massiveInstance);
@@ -43,6 +45,7 @@ app.use(express.static(__dirname + '/public'));
 //esto hay que cambiar ->
 app.use('/node_modules', express.static(__dirname + "/node_modules"));
 app.use('/images', express.static(__dirname + "/images"));
+app.use('/src', express.static(__dirname + "/src"));
 //<-
 
 //error handling
