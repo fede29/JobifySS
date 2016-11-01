@@ -38,7 +38,7 @@ md-list .md-button.selected {
 }
 
 md-sidenav md-list {
-	padding: 0px 0px 8px 0px;
+	padding: 0px 0px 0px 0px;
 }
 
 /* Content */
@@ -89,8 +89,21 @@ md-sidenav md-list {
 	-moz-transform: scale(0.70);
 }
 
-.carddemoBasicUsage .card-media {
-  background-color: #999999;
+.cardImage {
+	position: relative;
+	width: 150px;
+	height: 150px;
+	border: 5px solid #ddd;
+	border-radius: 20%;
+	display: inline-block;
+	overflow: hidden;
+	margin: 0px;
+	vertical-align: middle;
+	zoom: 0.50;
+	transform: translateZ(0);
+	-webkit-transform: scale(0.70);
+	-moz-transform: scale(0.70);
+    background-color: #999999;
 }
 
 .contentTitle {

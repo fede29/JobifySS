@@ -1,0 +1,63 @@
+<md-dialog aria-label="Add Element">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Adding Element</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="images/cancel.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="column" ng-cloak>
+          <md-content layout-padding>
+              
+            <form name="addForm" ng-submit="addForm.$valid && add()" novalidate>
+              <div layout="row">
+                <md-input-container flex="50">
+                  <label>Name</label>
+                  <input required name="name" ng-model="element.name">
+                  <div ng-messages="addForm.name.$error">
+                    <div ng-message="required">This is required.</div>
+                  </div>
+                </md-input-container>
+
+                <md-input-container flex="50">
+                  <label>Category</label>
+                  <md-select name="category" ng-model="element.category" required>
+                    <md-option ng-repeat="option in categories" value="{{option}}">{{option}}</md-option>
+                  </md-select>
+                  <div ng-messages="addForm.category.$error">
+                    <div ng-message="required">This is required.</div>
+                  </div>
+                </md-input-container>
+              </div>
+              
+              <md-input-container class="md-block">
+                <label>Description</label>
+                <input md-maxlength="50" required md-no-asterisk name="description" ng-model="element.description">
+                <div ng-messages="addForm.description.$error">
+                  <div ng-message="required">This is required.</div>
+                  <div ng-message="md-maxlength">The description must be less than 50 characters long.</div>
+                </div>  
+              </md-input-container>
+
+              <div layout>
+                <input type="submit" class="md-primary md-raised" >add</input>
+                <span flex></span>
+                <md-button class="md-primary md-raised" ng-click="refresh()">refresh</md-button>
+                <span flex></span>
+                <md-button class="md-primary md-raised" ng-click="cancel()">cancel</md-button>
+              </div>
+            </form>
+            
+          </md-content>
+
+        </div>
+      </div>
+    
+  </form>
+</md-dialog>

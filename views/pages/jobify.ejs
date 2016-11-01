@@ -11,11 +11,11 @@
 	<script src = "node_modules/angular-aria/angular-aria.min.js"></script>
 	<script src = "node_modules/angular-material/angular-material.min.js"></script>
 	<script src = "src/JobPositions.js"> </script>
-    <script src = "src/TabController.js"></script>
 	
 </head>
 
 <body ng-app="MyApp" layout="column">
+    
 	<md-toolbar>
 		<div class="md-toolbar-tools">
 			<md-icon md-svg-src="images/logo.svg" class="logo"></md-icon>
@@ -25,67 +25,84 @@
 		</div>
 	</md-toolbar>
 	
-	<div class="container" ng-controller="TabController as tab" layout="row" flex>
-		<md-sidenav md-is-locked-open="tab.sidenavView" class="md-whiteframe-5dp" flex="20">
-			<md-list>
-				<md-list-item ng-class="{ active:tab.isSelected(1) }">
-					<md-button ng-click="tab.selectTab(1)">
-						<md-icon md-svg-src="images/group.svg" class="avatar"></md-icon>
-						Job Positions
-					</md-button>
-				</md-list-item>
-				<md-list-item ng-class="{ active:tab.isSelected(2) }">
-					<md-button ng-click="tab.selectTab(2)">
-						<md-icon md-svg-src="images/suitcase.svg" class="avatar"></md-icon>
-						Skills
-					</md-button>
-				</md-list-item>
-				<md-list-item ng-class="{ active:tab.isSelected(3) }">
-					<md-button ng-click="tab.selectTab(3)">
-						<md-icon md-svg-src="images/hierarchy.svg" class="avatar"></md-icon>
-						Categories
-					</md-button>
-				</md-list-item>
-			<md-list>
-		</md-sidenav>
-		<md-content id="content" flex ng-controller="JobController as job">
-			<md-button ng-click="tab.toggleSidenav()"> Toggle </md-button>
-			<div class="contentTitle" ng-show="tab.isSelected(1)">
-				<h2><md-icon md-svg-src="images/group.svg" class="avatar"></md-icon>Job Positions</h2>
+    
+	<div class="container" ng-controller="AppController as app" layout="row" flex>
+        
+        <div ng-controller="SidenavController as sidenavCtrl">
+            <md-button ng-click="sidenavCtrl.toggleSidenav()">A</md-button>
+            <md-sidenav md-is-locked-open="sidenavCtrl.sidenavView" class="md-whiteframe-5dp" flex>
+                <md-list>
+                    <md-list-item ng-repeat="r in app.resources">
+                        <md-button ng-click="app.selectTab(r.num)">
+                            <md-icon md-svg-src="{{r.image}}" class="avatar"></md-icon>
+                            {{r.name}}
+                        </md-button>
+                    </md-list-item>
+                </md-list>
+            </md-sidenav>
+        </div>
+        
+		<md-content id="content" flex>
+			
+            <div class="contentTitle" layout="row">
+                <md-icon md-svg-src="{{ app.activeResource.image }}" class="avatar"></md-icon>
+                <h2>{{ app.activeResource.name }}</h2>
+                <span flex></span>
+                <div>
+                    <md-button class="md-fab md-primary md-mini" aria-label="Use Android" ng-click="app.listAll()">
+                        All
+                    </md-button>
+                </div>
+                <div>
+                    <md-button class="md-fab md-primary md-mini" aria-label="Use Android" ng-click="app.clearElements()">
+                        Clear
+                    </md-button>
+                </div>
+                <div ng-controller="AddElementController as addCtrl" >
+                    <md-button class="md-fab md-primary md-mini" aria-label="Use Android" ng-click="showAdvanced($event)">
+                        <md-icon md-svg-src="images/add.svg"></md-icon>
+                    </md-button>
+                </div>
 			</div>
-			<div class="contentTitle" ng-show="tab.isSelected(2)">
-				<h2><md-icon md-svg-src="images/suitcase.svg" class="avatar"></md-icon>Skills</h2>
-			</div>
-			<div class="contentTitle" ng-show="tab.isSelected(3)">
-				<h2><md-icon md-svg-src="images/hierarchy.svg" class="avatar"></md-icon>Categories</h2>
-			</div>
+            
 			<md-divider></md-divider>
-			<md-content class="md-padding" layout-xs="column" layout="row">
-			<md-card ng-repeat="position in job.jobPositions">
-				<md-card-title>
-					<md-card-title-text>
-						<span class="md-headline">{{position.name}}</span>
-						<span class="md-subhead">{{(position.description|limitTo:20) + "..."}}</span>
-					</md-card-title-text>
-					<md-card-title-media>
-        		<div class="md-media-sm card-media">
-							<md-icon md-svg-src="images/suitcase.svg" class="logo"></md-icon>
-						</div>
-	        </md-card-title-media>
-				</md-card-title>
-				<md-card-actions layout="row" layout-align="end center">
-					<md-button class="md-primary md-raised">Eliminar</md-button>
-					<md-button class="md-primary md-raised">Modificar</md-button>
-				</md-card-actions>
-			</md-card>
+            
+			<md-content layout="row" layout-padding layout-wrap layout-fill style="padding-bottom: 150px;" ng-cloak>
+                
+                <md-card ng-repeat="element in app.elements" layout-align="center center">
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{element.name}}</span>
+                            <span class="md-subhead">{{(element.description|limitTo:20) + "..."}}</span>
+                        </md-card-title-text>
+                        <md-card-title-media>
+                    <div class="md-media-sm card-media">
+                        <md-icon md-svg-src="images/suitcase.svg" class="cardImage"></md-icon>
+                    </div>
+                </md-card-title-media>
+                    </md-card-title>
+                    <md-card-actions layout="row" layout-align="end center">
+                        <md-button class="md-primary md-raised">Eliminar</md-button>
+                        <md-button class="md-primary md-raised">Modificar</md-button>
+                    </md-card-actions>
+                </md-card>
+                
 			</md-content>
+            
+            <md-divider></md-divider>
+            
 		</md-content>
+        
 	</div>
+    
+    <span flex="5"></span>
 
 	<script>
-		angular.module('MyApp',['ngMaterial','jobPositions']).run(function(){
+		angular.module('MyApp',['ngMaterial','main']).run(function(){
 			console.log("MyApp is ready!");
 		});
 	</script>
+    
 </body>
+
 </html>
