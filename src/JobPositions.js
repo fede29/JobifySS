@@ -1,30 +1,6 @@
 (function(){
 	'use strict';	
 	var app = angular.module('main', [ 'ngMaterial' ]);
-	
-	app.controller('JobController', [ '$http', function($http){
-        
-		var job = this;
-        
-        job.resources = resources;
-        job.activeElement = resources[0];
-        job.jobPositions = [];
-        
-        this.setActiveElement = function(element){
-            job.activeElement = element;
-        };
-        
-        this.listAll = function(){
-            var url = job.activeElement.where;
-            $http.get(url).success(function(data){
-                job.jobPositions = data.job_positions;
-            });
-        };
-        
-        this.clear = function (){
-            job.jobPositions = [];
-        };
-	}]);
     
     app.controller('SidenavController', function(){
         this.sidenavView = true;
@@ -45,8 +21,9 @@
     app.controller('AddElementController', function($scope, $mdDialog, $http){
         $scope.status = '  ';
         $scope.customFullscreen = false;
-        
-        $scope.showAdvanced = function(ev) {
+        $scope.resource = {};
+        $scope.showAdvanced = function(ev,res) {
+            $scope.resource = res;
             $mdDialog.show({
               controller: DialogController,
               controllerAs: 'dialogCtrl',
@@ -54,7 +31,9 @@
               parent: angular.element(document.body),
               targetEvent: ev,
               clickOutsideToClose:true,
-              fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+              fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
+              locals: {resource: $scope.resource}
+              
             })
             .then(function(answer) {
               $scope.status = 'You said the information was "' + answer + '".';
@@ -63,24 +42,26 @@
             });
         };
         
-        function DialogController($scope, $mdDialog, $http) {
-            
+        function DialogController($scope, $mdDialog, $http, resource) {
+            $scope.resource = resource;
             $scope.element = { };
-            $scope.master = { };
+            $scope.clean = { };
             
-            $scope.categories = ["Software","Management","Sport","Music"];
+            $scope.categories = [];
+            $http.get('/categories').success(function(data){
+                $scope.categories = data.categories;
+            });
     
             $scope.cancel = function() {
                 $mdDialog.cancel();
             };
             
             $scope.refresh = function() {
-                $scope.element = angular.copy($scope.master);
+                $scope.element = angular.copy($scope.clean);
             };
 
             $scope.add = function() {
-                console.log(data);
-                var url = '/job_positions/categories/' + $scope.element.category;
+                var url = $scope.resource.where + '/categories/' + $scope.element.category;
                 var data = {
                     name: $scope.element.name,
                     description: $scope.element.description,
@@ -105,6 +86,7 @@
 		this.selectTab = function(setTab) {
 			this.tab = setTab;
             this.activeResource = this.resources[setTab-1];
+            this.listAll();
 		};
 		
 		this.isSelected = function(checkTab){
@@ -119,7 +101,11 @@
                 if (url == "job_positions") appCtrl.elements = data.job_positions;
                 if (url == "skills") appCtrl.elements = data.skills;
                 if (url == "categories") appCtrl.elements = data.categories;
+                appCtrl.elements.sort(function(a,b){
+                    return a.name.localeCompare(b.name);
+                });
             });
+            
         };
         
         this.clearElements = function (){
@@ -139,6 +125,7 @@
             name: "Skills",
             image: "images/suitcase.svg",
             where: "skills",
+            add: "skills/categories",
             num: 2,
         },
         {

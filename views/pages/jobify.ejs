@@ -21,7 +21,6 @@
 			<md-icon md-svg-src="images/logo.svg" class="logo"></md-icon>
 			<span>Jobify Shared Server</span>
 			<span flex></span>
-			<md-button>Menu</md-button>
 		</div>
 	</md-toolbar>
 	
@@ -49,17 +48,22 @@
                 <h2>{{ app.activeResource.name }}</h2>
                 <span flex></span>
                 <div>
-                    <md-button class="md-fab md-primary md-mini" aria-label="Use Android" ng-click="app.listAll()">
-                        All
+                    <md-button class="md-primary md-raised md-mini" aria-label="Use Android" ng-click="app.listAll()">
+                        List All
                     </md-button>
                 </div>
                 <div>
-                    <md-button class="md-fab md-primary md-mini" aria-label="Use Android" ng-click="app.clearElements()">
+                    <md-button class="md-primary md-raised md-mini" aria-label="Use Android" ng-click="app.search()">
+                        Search
+                    </md-button>
+                </div>
+                <div>
+                    <md-button class="md-primary md-raised md-mini" aria-label="Use Android" ng-click="app.clearElements()">
                         Clear
                     </md-button>
                 </div>
                 <div ng-controller="AddElementController as addCtrl" >
-                    <md-button class="md-fab md-primary md-mini" aria-label="Use Android" ng-click="showAdvanced($event)">
+                    <md-button class="md-fab md-primary md-mini" aria-label="Use Android" ng-click="showAdvanced($event,app.activeResource)">
                         <md-icon md-svg-src="images/add.svg"></md-icon>
                     </md-button>
                 </div>
@@ -67,17 +71,18 @@
             
 			<md-divider></md-divider>
             
-			<md-content layout="row" layout-padding layout-wrap layout-fill style="padding-bottom: 150px;" ng-cloak>
+			<md-content layout="row" layout-padding layout layout-fill style="padding-bottom: 150px;" ng-cloak>
                 
                 <md-card ng-repeat="element in app.elements" layout-align="center center">
                     <md-card-title>
                         <md-card-title-text>
-                            <span class="md-headline">{{element.name}}</span>
-                            <span class="md-subhead">{{(element.description|limitTo:20) + "..."}}</span>
+                            <span class="md-headline">{{element.name|limitTo:20}}</span>
+                            <span class="md-subhead">{{element.category|limitTo:20}}</span>
+                            <p>{{(element.description|limitTo:20) + "..."}}</p>
                         </md-card-title-text>
                         <md-card-title-media>
                     <div class="md-media-sm card-media">
-                        <md-icon md-svg-src="images/suitcase.svg" class="cardImage"></md-icon>
+                        <md-icon md-svg-src="{{app.activeResource.image}}" class="cardImage"></md-icon>
                     </div>
                 </md-card-title-media>
                     </md-card-title>

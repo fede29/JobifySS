@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>Adding Element</h2>
+        <h2>{{ "add " + resource.name + " element" | uppercase }}</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
           <md-icon md-svg-src="images/cancel.svg" aria-label="Close dialog"></md-icon>
@@ -15,7 +15,7 @@
         <div layout="column" ng-cloak>
           <md-content layout-padding>
               
-            <form name="addForm" ng-submit="addForm.$valid && add()" novalidate>
+            <form name="addForm" ng-submit novalidate>
               <div layout="row">
                 <md-input-container flex="50">
                   <label>Name</label>
@@ -28,7 +28,7 @@
                 <md-input-container flex="50">
                   <label>Category</label>
                   <md-select name="category" ng-model="element.category" required>
-                    <md-option ng-repeat="option in categories" value="{{option}}">{{option}}</md-option>
+                    <md-option ng-repeat="option in categories" value="{{option.name}}">{{option.name}}</md-option>
                   </md-select>
                   <div ng-messages="addForm.category.$error">
                     <div ng-message="required">This is required.</div>
@@ -46,7 +46,7 @@
               </md-input-container>
 
               <div layout>
-                <input type="submit" class="md-primary md-raised" >add</input>
+                <md-button type="submit" class="md-primary md-raised" ng-click="add()" >add</md-button>
                 <span flex></span>
                 <md-button class="md-primary md-raised" ng-click="refresh()">refresh</md-button>
                 <span flex></span>
