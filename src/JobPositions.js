@@ -74,9 +74,62 @@
         };
     });
     
+    app.controller('DelElementController', function($scope, $mdDialog, $http){
+        $scope.status = '  ';
+        $scope.customFullscreen = false;
+        
+        $scope.resource = {};
+        $scope.element = {};
+        
+        $scope.showAdvanced = function(ev,res,elmnt) {
+            $scope.resource = res;
+            $scope.element = elmnt;
+            $mdDialog.show({
+              controller: DeldialogController,
+              controllerAs: 'deldialogCtrl',
+              templateUrl: 'views/pages/delElement.html',
+              parent: angular.element(document.body),
+              targetEvent: ev,
+              clickOutsideToClose:true,
+              fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
+              locals: {
+                  resource: $scope.resource,
+                  element: $scope.element
+                  },
+              
+            })
+            .then(function(answer) {
+              $scope.status = 'You said the information was "' + answer + '".';
+            }, function() {
+              $scope.status = 'You cancelled the dialog.';
+            });
+        };
+        
+        function DeldialogController($scope, $mdDialog, $http, resource, element) {
+            $scope.resource = resource;
+            $scope.element = element;
+            console.log(element);
+    
+            $scope.cancel = function() {
+                $mdDialog.cancel();
+            };
+
+            $scope.del = function() {
+                var url = $scope.resource.where + "/categories/" + $scope.element.category + "/" + $scope.element.name;
+                console.log (url);
+                $http.delete(url).success(function(data){
+                    console.log("Im deleting!");
+                    $mdDialog.cancel();
+                });
+            };
+        };
+    });
+    
+    
     app.controller('AppController', [ '$http', function($http){
         
         this.resources = resources;
+        this.activeElement = {};
         this.activeResource = this.resources[0];
         this.elements = [];
 		this.tab = 1;

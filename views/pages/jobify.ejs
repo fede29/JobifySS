@@ -71,7 +71,7 @@
             
 			<md-divider></md-divider>
             
-			<md-content layout="row" layout-padding layout layout-fill style="padding-bottom: 150px;" ng-cloak>
+			<md-content layout="row" layout-padding layout-wrap layout-fill style="padding-bottom: 150px;" ng-cloak>
                 
                 <md-card ng-repeat="element in app.elements" layout-align="center center">
                     <md-card-title>
@@ -81,14 +81,18 @@
                             <p>{{(element.description|limitTo:20) + "..."}}</p>
                         </md-card-title-text>
                         <md-card-title-media>
-                    <div class="md-media-sm card-media">
-                        <md-icon md-svg-src="{{app.activeResource.image}}" class="cardImage"></md-icon>
-                    </div>
-                </md-card-title-media>
+                            <div class="md-media-sm card-media">
+                                <md-icon md-svg-src="{{app.activeResource.image}}" class="cardImage"></md-icon>
+                            </div>
+                        </md-card-title-media>
                     </md-card-title>
-                    <md-card-actions layout="row" layout-align="end center">
-                        <md-button class="md-primary md-raised">Eliminar</md-button>
-                        <md-button class="md-primary md-raised">Modificar</md-button>
+                    <md-card-actions layout="row" layout-align="end center" ng-controller="DelElementController as delCtrl">
+                        <md-button  class="md-primary md-raised" ng-click="showAdvanced($event,app.activeResource,app.elements[0]   )">
+                            Eliminar
+                        </md-button>
+                        <md-button class="md-primary md-raised">
+                            Modificar
+                        </md-button>
                     </md-card-actions>
                 </md-card>
                 
