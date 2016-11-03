@@ -25,7 +25,7 @@
 	</md-toolbar>
 	
     
-	<div class="container" ng-controller="AppController as app" layout="row" flex>
+	<div class="container" ng-controller="AppController as app" layout="row" flex style="height:500px;" ng-cloak >
         
         <div ng-controller="SidenavController as sidenavCtrl">
             <md-button ng-click="sidenavCtrl.toggleSidenav()">A</md-button>
@@ -76,9 +76,9 @@
                 <md-card ng-repeat="element in app.elements" layout-align="center center">
                     <md-card-title>
                         <md-card-title-text>
-                            <span class="md-headline">{{element.name|limitTo:20}}</span>
-                            <span class="md-subhead">{{element.category|limitTo:20}}</span>
-                            <p>{{(element.description|limitTo:20) + "..."}}</p>
+                            <span class="md-headline">{{ element.name|limitTo:20 }} {{ (element.name.length>20) ? "..." : "" }}</span>
+                            <span class="md-subhead">{{ element.category|limitTo:20 }} {{ (element.category.length>20) ? "..." : "" }}</span>
+                            <p>{{ (element.description|limitTo:20)}} {{ (element.description.length>20) ? "..." : "" }}</p>
                         </md-card-title-text>
                         <md-card-title-media>
                             <div class="md-media-sm card-media">
@@ -86,8 +86,8 @@
                             </div>
                         </md-card-title-media>
                     </md-card-title>
-                    <md-card-actions layout="row" layout-align="end center" ng-controller="DelElementController as delCtrl">
-                        <md-button  class="md-primary md-raised" ng-click="showAdvanced($event,app.activeResource,app.elements[0]   )">
+                    <md-card-actions layout="row" layout-align="end center">
+                            <md-button  class="md-primary md-raised" ng-controller="DelElementController as delCtrl" ng-click="showAdvanced($event,app.activeResource,app.elements[0])">
                             Eliminar
                         </md-button>
                         <md-button class="md-primary md-raised">
