@@ -2,79 +2,7 @@
 	'use strict';	
 	var app = angular.module('main', [ 'ngMaterial' ]);
     
-    app.controller('SidenavController', function(){
-        this.sidenavView = true;
-        
-        this.hideSidenav = function(){
-			this.sidenavView = false;
-		};
-
-		this.showSidenav = function(){
-			this.sidenavView = true;
-		};
-
-		this.toggleSidenav = function(){
-			this.sidenavView = !this.sidenavView;
-		};
-    });
-    
-    app.controller('AddElementController', function($scope, $mdDialog, $http){
-        $scope.status = '  ';
-        $scope.customFullscreen = false;
-        $scope.resource = {};
-        $scope.showAdvanced = function(ev,res) {
-            $scope.resource = res;
-            $mdDialog.show({
-              controller: DialogController,
-              controllerAs: 'dialogCtrl',
-              templateUrl: 'views/pages/addElement.html',
-              parent: angular.element(document.body),
-              targetEvent: ev,
-              clickOutsideToClose:true,
-              fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
-              locals: {resource: $scope.resource}
-              
-            })
-            .then(function(answer) {
-              $scope.status = 'You said the information was "' + answer + '".';
-            }, function() {
-              $scope.status = 'You cancelled the dialog.';
-            });
-        };
-        
-        function DialogController($scope, $mdDialog, $http, resource) {
-            $scope.resource = resource;
-            $scope.element = { };
-            $scope.clean = { };
-            
-            $scope.categories = [];
-            $http.get('/categories').success(function(data){
-                $scope.categories = data.categories;
-            });
-    
-            $scope.cancel = function() {
-                $mdDialog.cancel();
-            };
-            
-            $scope.refresh = function() {
-                $scope.element = angular.copy($scope.clean);
-            };
-
-            $scope.add = function() {
-                var url = $scope.resource.where + '/categories/' + $scope.element.category;
-                var data = {
-                    name: $scope.element.name,
-                    description: $scope.element.description,
-                };
-                $http.post(url,data).success(function(data){
-                    console.log(data);
-                    $mdDialog.cancel();
-                });
-            };
-        };
-    });
-    
-    app.controller('DelElementController', function($scope, $mdDialog, $http){
+    /*app.controller('DelElementController', function($scope, $mdDialog, $http){
         $scope.status = '  ';
         $scope.customFullscreen = false;
         
@@ -82,8 +10,8 @@
         $scope.element = {};
         
         $scope.showAdvanced = function(ev,res,elmnt) {
-            $scope.resource = res;
-            $scope.element = elmnt;
+            //$scope.resource = res;
+            //$scope.element = elmnt;
             $mdDialog.show({
               controller: DeldialogController,
               controllerAs: 'deldialogCtrl',
@@ -93,13 +21,13 @@
               clickOutsideToClose:true,
               fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
               locals: {
-                  resource: $scope.resource,
-                  element: $scope.element
+                  resource: res,
+                  element: elmnt
                   },
               
             })
             .then(function(answer) {
-              $scope.status = 'You said the information was "' + answer + '".';
+              $scope.status = 'You said the information was ' + answer + '.';
             }, function() {
               $scope.status = 'You cancelled the dialog.';
             });
@@ -123,23 +51,24 @@
                 });
             };
         };
-    });
+    });*/
     
     
-    app.controller('AppController', [ '$http', function($http){
+    app.controller('AppController', [ '$http', '$scope', '$mdDialog', function($http, $scope, $mdDialog){
+        var self = this;
         
-        this.resources = resources;
-        this.activeElement = {};
-        this.activeResource = this.resources[0];
-        this.elements = [];
-		this.tab = 1;
+        self.resources = resources;
+        self.activeElement = {};
+        self.activeResource = {};   
+        self.elements = [];
+        self.hideContent = true;
         
-        var appCtrl = this;
+        $scope.status = '';
 		
-		this.selectTab = function(setTab) {
-			this.tab = setTab;
-            this.activeResource = this.resources[setTab-1];
-            this.listAll();
+		this.selectResource = function(resource) {
+            self.activeResource = resource;
+            self.listAll();
+            self.hideContent = false;
 		};
 		
 		this.isSelected = function(checkTab){
@@ -147,14 +76,14 @@
 		};
         
         this.listAll = function(){
-            var url = appCtrl.activeResource.where;
-            var name = appCtrl.activeResource.name;
+            var url = self.activeResource.where;
+            var name = self.activeResource.name;
             console.log(url);
             $http.get(url).success(function(data){
-                if (url == "job_positions") appCtrl.elements = data.job_positions;
-                if (url == "skills") appCtrl.elements = data.skills;
-                if (url == "categories") appCtrl.elements = data.categories;
-                appCtrl.elements.sort(function(a,b){
+                if (url == "job_positions") self.elements = data.job_positions;
+                if (url == "skills") self.elements = data.skills;
+                if (url == "categories") self.elements = data.categories;
+                self.elements.sort(function(a,b){
                     return a.name.localeCompare(b.name);
                 });
             });
@@ -162,10 +91,60 @@
         };
         
         this.clearElements = function (){
-            appCtrl.elements = [];
+            self.elements = [];
         };
         
-	}]);
+        this.deleteElement = function (element){
+            var url = self.activeResource.where + "/categories/" + element.category + "/" + element.name;
+            console.log (url);
+            /*$http.delete(url).success(function(data){
+                console.log("Im deleting!");
+                $mdDialog.cancel();
+            });*/
+        };
+        
+        $scope.showDelDialog = function(ev,res,elmnt){
+            $mdDialog.show({
+              controller: DeldialogController,
+              controllerAs: 'deldialogCtrl',
+              templateUrl: 'views/pages/delElement.html',
+              parent: angular.element(document.body),
+              targetEvent: ev,
+              clickOutsideToClose:true,
+              fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
+              locals: {
+                  resource: res,
+                  element: elmnt
+                  },
+              
+            })
+            .then(function(answer) {
+              $scope.status = 'You said the information was ' + answer + '.';
+            }, function() {
+              $scope.status = 'You cancelled the dialog.';
+            });
+        };
+        
+        function DeldialogController($scope, $mdDialog, $http, resource, element) {
+            $scope.resource = resource;
+            $scope.element = element;
+            console.log(element);
+    
+            $scope.cancel = function() {
+                $mdDialog.cancel();
+            };
+
+            $scope.del = function() {
+                var url = $scope.resource.where + "/categories/" + $scope.element.category + "/" + $scope.element.name;
+                console.log (url);
+                $http.delete(url).success(function(data){
+                    console.log("Im deleting!");
+                    $mdDialog.cancel();
+                });
+            };
+        };
+        
+	}]);    
 
     var resources = [
         {

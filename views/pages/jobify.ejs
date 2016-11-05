@@ -10,7 +10,9 @@
 	<script src = "node_modules/angular-animate/angular-animate.js"></script>
 	<script src = "node_modules/angular-aria/angular-aria.min.js"></script>
 	<script src = "node_modules/angular-material/angular-material.min.js"></script>
-	<script src = "src/JobPositions.js"> </script>
+	<script src = "src/JobPositions.js"></script>
+    <script src = "src/SidenavController.js"></script>
+    <script src = "src/AddElementController.js"></script>
 	
 </head>
 
@@ -25,14 +27,14 @@
 	</md-toolbar>
 	
     
-	<div class="container" ng-controller="AppController as app" layout="row" flex style="height:500px;" ng-cloak >
+	<div class="container" ng-controller="AppController as app" layout="row" flex >
         
-        <div ng-controller="SidenavController as sidenavCtrl">
+        <div ng-controller="SidenavController as sidenavCtrl" layout="column">
             <md-button ng-click="sidenavCtrl.toggleSidenav()">A</md-button>
             <md-sidenav md-is-locked-open="sidenavCtrl.sidenavView" class="md-whiteframe-5dp" flex>
                 <md-list>
                     <md-list-item ng-repeat="r in app.resources">
-                        <md-button ng-click="app.selectTab(r.num)">
+                        <md-button ng-click="app.selectResource(r)">
                             <md-icon md-svg-src="{{r.image}}" class="avatar"></md-icon>
                             {{r.name}}
                         </md-button>
@@ -42,9 +44,8 @@
         </div>
         
 		<md-content id="content" flex>
-			
-            <div class="contentTitle" layout="row">
-                <md-icon md-svg-src="{{ app.activeResource.image }}" class="avatar"></md-icon>
+            <div class="contentTitle" layout="row" ng-hide="app.hideContent">
+                <md-icon md-svg-src="{{ app.activeResource.image }}" class="avatar" ></md-icon>
                 <h2>{{ app.activeResource.name }}</h2>
                 <span flex></span>
                 <div>
@@ -76,9 +77,9 @@
                 <md-card ng-repeat="element in app.elements" layout-align="center center">
                     <md-card-title>
                         <md-card-title-text>
-                            <span class="md-headline">{{ element.name|limitTo:20 }} {{ (element.name.length>20) ? "..." : "" }}</span>
-                            <span class="md-subhead">{{ element.category|limitTo:20 }} {{ (element.category.length>20) ? "..." : "" }}</span>
-                            <p>{{ (element.description|limitTo:20)}} {{ (element.description.length>20) ? "..." : "" }}</p>
+                            <span class="md-headline">{{ element.name|limitTo:20 }} {{(element.name.length>20) ? "..." : "" }}</span>
+                            <span class="md-subhead">{{ element.category|limitTo:20 }} {{(element.category.length>20) ? "..." : "" }}</span>
+                            <p>{{ (element.description|limitTo:20)}}{{(element.description.length>20) ? "..." : "" }}</p>
                         </md-card-title-text>
                         <md-card-title-media>
                             <div class="md-media-sm card-media">
@@ -87,7 +88,7 @@
                         </md-card-title-media>
                     </md-card-title>
                     <md-card-actions layout="row" layout-align="end center">
-                            <md-button  class="md-primary md-raised" ng-controller="DelElementController as delCtrl" ng-click="showAdvanced($event,app.activeResource,app.elements[0])">
+                        <md-button  class="md-primary md-raised" ng-click="showDelDialog($event,app.activeResource,element)">
                             Eliminar
                         </md-button>
                         <md-button class="md-primary md-raised">
