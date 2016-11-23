@@ -17,11 +17,12 @@ html, body{
 
 md-toolbar h1 {
 	margin: auto;
-	
+    font-size: 100px;
 }
 
 md-toolbar .title {
-	background-color: #2477ab;
+	background-color: transparent;
+    font-size: 30px;
 }
 
 /* Sidenav */
@@ -39,6 +40,12 @@ md-list .md-button.selected {
 
 md-sidenav md-list {
 	padding: 0px 0px 0px 0px;
+}
+
+md-sidenav, md-sidenav.md-locked-open, md-sidenav.md-closed.md-locked-open-add-active {
+    min-width: 200px;
+    max-width: 600px;
+    position:relative;
 }
 
 /* Content */
@@ -75,8 +82,8 @@ md-sidenav md-list {
 
 .logo  {
 	position: relative;
-	width: 128px;
-	height: 128px;
+	width: 256px;
+	height: 256px;
 	border: 5px solid #ddd;
 	border-radius: 20%;
 	display: inline-block;
@@ -107,5 +114,17 @@ md-sidenav md-list {
 }
 
 .contentTitle {
-    background-color: transparent;
+    min-height: 90px;
 }
+
+.card-headline {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.card-description{
+    font-size: 16px
+}
+
+
+

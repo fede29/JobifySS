@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>{{ "add " + resource.name + " element" | uppercase }}</h2>
+        <h2>{{ "modify " + resource.name + " element" | uppercase }}</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
           <md-icon md-svg-src="images/cancel.svg" aria-label="Close dialog"></md-icon>
@@ -46,9 +46,9 @@
               </md-input-container>
 
               <div layout>
-                <md-button type="submit" class="md-primary md-raised" ng-click="add()">add</md-button>
+                <md-button type="submit" class="md-primary md-raised" ng-click="confirm()" >confirm</md-button>
                 <span flex></span>
-                <md-button class="md-primary md-raised" ng-click="refresh()">refresh</md-button>
+                <md-button class="md-primary md-raised" ng-click="refresh()">clear</md-button>
                 <span flex></span>
                 <md-button class="md-primary md-raised" ng-click="cancel()">cancel</md-button>
               </div>

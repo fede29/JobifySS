@@ -1,18 +1,14 @@
 (function(){
     
-    angular.module('main').controller('SidenavController', function(){
-        this.sidenavView = true;
-            
-        this.hideSidenav = function(){
-			this.sidenavView = false;
-		};
+    angular.module('main').controller('SidenavController', function($scope, $timeout, $mdSidenav){
+        $scope.toggleLeft = buildToggler('left');
+        $scope.toggleRight = buildToggler('right');
 
-		this.showSidenav = function(){
-			this.sidenavView = true;
-		};
-
-		this.toggleSidenav = function(){
-			this.sidenavView = !this.sidenavView;
-		};
+        function buildToggler(componentId) {
+            return function() {
+            $mdSidenav(componentId).toggle();
+            }
+        }
     });
+    
 })();

@@ -4,6 +4,7 @@
         $scope.status = '  ';
         $scope.customFullscreen = false;
         $scope.resource = {};
+
         $scope.showAdvanced = function(ev,res) {
             $scope.resource = res;
             $mdDialog.show({
@@ -48,6 +49,7 @@
                     name: $scope.element.name,
                     description: $scope.element.description,
                 };
+                console.log(data);
                 $http.post(url,data).success(function(data){
                     console.log(data);
                     $mdDialog.cancel();

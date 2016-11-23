@@ -1,6 +1,7 @@
 //begin express
 var express = require('express');
 var app = express();
+
 //require
 var pg = require('pg');
 var massive  = require('massive');
@@ -16,14 +17,17 @@ var routes = require('./routes/index');
 var job_positions = require('./routes/job_positions');
 var categories = require('./routes/categories');
 var skills = require('./routes/skills');
+var common = require('./routes/common');
 
 //configuration file
 var config = require('./config.json');
+
 //connection to database
 console.log("Connecting to DB...");
 var localdb_url = "postgres://"+config.postgres.user+":"+config.postgres.password+"@"+config.postgres.host+"/"+config.postgres.db;
 var connectionString = process.env.DATABASE_URL || localdb_url;
 var massiveInstance = massive.connectSync({connectionString: connectionString});
+var db = app.get('db');
 
 console.log("Configuring App...");
 //body parser
@@ -51,6 +55,8 @@ app.use('/views/pages', express.static(__dirname + "/views/pages"));
 
 //error handling
 function errorHandler(err,req,res,next) {
+    console.log("Despues del Error");
+    console.log(err.message);
 	res.status(500);
 	res.render('Error', {error: err});
 };
@@ -62,10 +68,11 @@ var db = app.get('db');
 
 app.use(function(request, response, next){ //hay que cambiar para que lo use solo cuando lo necesita.
 	request.db = db;
+    request.version = config.version;
 	next();
 });
 
-app.use('/',routes,job_positions,categories,skills);
+app.use('/',routes,job_positions,categories,skills,common);
 
 //===========================================================================//
 

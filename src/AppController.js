@@ -2,59 +2,8 @@
 	'use strict';	
 	var app = angular.module('main', [ 'ngMaterial' ]);
     
-    /*app.controller('DelElementController', function($scope, $mdDialog, $http){
-        $scope.status = '  ';
-        $scope.customFullscreen = false;
-        
-        $scope.resource = {};
-        $scope.element = {};
-        
-        $scope.showAdvanced = function(ev,res,elmnt) {
-            //$scope.resource = res;
-            //$scope.element = elmnt;
-            $mdDialog.show({
-              controller: DeldialogController,
-              controllerAs: 'deldialogCtrl',
-              templateUrl: 'views/pages/delElement.html',
-              parent: angular.element(document.body),
-              targetEvent: ev,
-              clickOutsideToClose:true,
-              fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
-              locals: {
-                  resource: res,
-                  element: elmnt
-                  },
-              
-            })
-            .then(function(answer) {
-              $scope.status = 'You said the information was ' + answer + '.';
-            }, function() {
-              $scope.status = 'You cancelled the dialog.';
-            });
-        };
-        
-        function DeldialogController($scope, $mdDialog, $http, resource, element) {
-            $scope.resource = resource;
-            $scope.element = element;
-            console.log(element);
-    
-            $scope.cancel = function() {
-                $mdDialog.cancel();
-            };
-
-            $scope.del = function() {
-                var url = $scope.resource.where + "/categories/" + $scope.element.category + "/" + $scope.element.name;
-                console.log (url);
-                $http.delete(url).success(function(data){
-                    console.log("Im deleting!");
-                    $mdDialog.cancel();
-                });
-            };
-        };
-    });*/
-    
-    
-    app.controller('AppController', [ '$http', '$scope', '$mdDialog', function($http, $scope, $mdDialog){
+    app.controller('AppController', [ '$http', '$scope', '$mdDialog', '$timeout', '$mdSidenav',
+                    function($http, $scope, $mdDialog, $timeout, $mdSidenav){
         var self = this;
         
         self.resources = resources;
@@ -64,7 +13,10 @@
         self.hideContent = true;
         
         $scope.status = '';
-		
+        
+        $scope.toggleLeft = buildToggler('left');
+        $scope.isSidenavOpen = false;
+
 		this.selectResource = function(resource) {
             self.activeResource = resource;
             self.listAll();
@@ -94,15 +46,6 @@
             self.elements = [];
         };
         
-        this.deleteElement = function (element){
-            var url = self.activeResource.where + "/categories/" + element.category + "/" + element.name;
-            console.log (url);
-            /*$http.delete(url).success(function(data){
-                console.log("Im deleting!");
-                $mdDialog.cancel();
-            });*/
-        };
-        
         $scope.showDelDialog = function(ev,res,elmnt){
             $mdDialog.show({
               controller: DeldialogController,
@@ -120,9 +63,67 @@
             })
             .then(function(answer) {
               $scope.status = 'You said the information was ' + answer + '.';
+              console.log(answer);
             }, function() {
-              $scope.status = 'You cancelled the dialog.';
+              console.log("I canceled");
             });
+        };
+        
+        $scope.showModifyDialog = function(ev,res,elmnt){
+            $mdDialog.show({
+              controller: ModdialogController,
+              controllerAs: 'moddialogCtrl',
+              templateUrl: 'views/pages/modifyElement.html',
+              parent: angular.element(document.body),
+              targetEvent: ev,
+              clickOutsideToClose:true,
+              fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
+              locals: {
+                  resource: res,
+                  element: elmnt
+                  },
+              
+            })
+            .then(function(answer) {
+              $scope.status = 'You said the information was ' + answer + '.';
+            }, function() {
+              console.log('You cancelled the dialog.');
+            });
+        };
+        
+        function ModdialogController ($scope, $mdDialog, $http, resource, element) {
+            
+            $scope.resource = resource;
+            $scope.originalElement = angular.copy(element);
+            $scope.element = element;
+            $scope.clean = { };
+            
+            $scope.categories = [];
+            
+            $http.get('/categories').success(function(data){
+                $scope.categories = data.categories;
+            });
+    
+            $scope.cancel = function(answer) {
+                $mdDialog.cancel(answer);
+            };
+            
+            $scope.refresh = function() {
+                $scope.element = angular.copy($scope.clean);
+            };
+
+            $scope.confirm = function() {
+                var url = $scope.resource.where + '/categories/' + $scope.originalElement.category + '/' + $scope.originalElement.name ;
+                var data = {
+                    name: $scope.element.name,
+                    description: $scope.element.description,
+                    category: $scope.element.category
+                };
+                $http.put(url,data).success(function(data){
+                    console.log(data);
+                    $mdDialog.cancel();
+                });
+            };
         };
         
         function DeldialogController($scope, $mdDialog, $http, resource, element) {
@@ -130,8 +131,8 @@
             $scope.element = element;
             console.log(element);
     
-            $scope.cancel = function() {
-                $mdDialog.cancel();
+            $scope.cancel = function(answer) {
+                $mdDialog.cancel(answer);
             };
 
             $scope.del = function() {
@@ -141,6 +142,13 @@
                     console.log("Im deleting!");
                     $mdDialog.cancel();
                 });
+            };
+        };
+
+        function buildToggler(componentId) {
+            return function() {
+            $mdSidenav(componentId).toggle();
+            $scope.isSidenavOpen = !$scope.isSidenavOpen;
             };
         };
         
