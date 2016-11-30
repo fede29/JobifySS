@@ -29,11 +29,13 @@
             $scope.resource = resource;
             $scope.element = { };
             $scope.clean = { };
-            
             $scope.categories = [];
+            
             $http.get('/categories').success(function(data){
                 $scope.categories = data.categories;
             });
+
+            if (resource.name === 'Categories') $scope.element.category = $scope.categories[0];
     
             $scope.cancel = function() {
                 $mdDialog.cancel();
@@ -44,7 +46,9 @@
             };
 
             $scope.add = function() {
+
                 var url = $scope.resource.where + '/categories/' + $scope.element.category;
+                if ($scope.resource.name === "Categories") url = $scope.resource.where;
                 var data = {
                     name: $scope.element.name,
                     description: $scope.element.description,

@@ -22,7 +22,7 @@
 <div ng-controller="AppController as AppCtrl" layout="column" layout-fill ng-cloak>
 <section layout="row">
     <md-sidenav class="md-sidenav-left" md-component-id="left"
-        md-disable-backdrop md-whiteframe="4" md-is-locked-open="true">
+        md-disable-backdrop md-whiteframe="4" >
 
         <md-toolbar class="title" layout="column" layout-align="top center" style="padding-bottom: 30px">
             <md-icon md-svg-src="images/logo.svg" class="logo"></md-icon>
@@ -55,28 +55,52 @@
                 <span flex="5"></span>
                 <h2>{{ AppCtrl.activeResource.name }}</h2> <md-icon md-svg-src="{{ AppCtrl.activeResource.image }}" class="avatar" ng-hide="AppCtrl.hideContent"></md-icon>
                 <span flex></span>
-                <div>
+                <div ng-hide="AppCtrl.hideContent">
                     <md-button class="md-primary md-raised md-mini" aria-label="Use Android" ng-click="AppCtrl.listAll()">
                         List All
                     </md-button>
-                </div>
-                <div>
-                    <md-button class="md-primary md-raised md-mini" aria-label="Use Android" ng-click="AppCtrl.search()">
+                    <md-button class="md-primary md-raised md-mini" aria-label="Use Android" ng-click="AppCtrl.toggleSearch()" ng-hide="AppCtrl.activeResource.name == 'Categories'">
                         Search
                     </md-button>
-                </div>
-                <div>
                     <md-button class="md-primary md-raised md-mini" aria-label="Use Android" ng-click="AppCtrl.clearElements()">
                         Clear
                     </md-button>
                 </div>
-                <div ng-controller="AddElementController as addCtrl" >
+                <div ng-controller="AddElementController as addCtrl" ng-hide="AppCtrl.hideContent">
                     <md-button class="md-fab md-primary md-mini" aria-label="Add Element" ng-click="showAdvanced($event, AppCtrl.activeResource)">
                         <md-tooltip md-direction="bottom">Add Element</md-tooltip>
                         <md-icon md-svg-src="images/add.svg"></md-icon>
                     </md-button>
                 </div>
             </md-toolbar>
+        </div>
+        
+        <div layout="row" layout-padding ng-show="AppCtrl.activeSearch">
+            <md-chips
+            ng-model="AppCtrl.categoriesSearch"
+            name="categorySearch"
+            md-autocomplete-snap
+            md-require-match="true"
+            md-max-chips="5"
+            flex>
+                <md-autocomplete
+                    md-selected-item="AppCtrl.selectedItemSearch"
+                    md-search-text="AppCtrl.searchText"
+                    md-items="item in AppCtrl.queryCategorySearch(AppCtrl.searchText)"
+                    md-item-text="item.name"
+                    placeholder="Search for a category">
+                    <span md-highlight-text="AppCtrl.searchText"> {{item.name}}</span>
+                </md-autocomplete>
+                <md-chip-template>
+                    <span>
+                    <strong>{{$chip.name}}</strong>
+                    </span>
+                </md-chip-template>
+            </md-chips>
+            <md-button class="md-fab md-primary md-mini" aria-label="Search">
+                <md-tooltip md-direction="bottom">Search</md-tooltip>
+                <md-icon md-svg-src="images/search.svg" ng-click="AppCtrl.findByCategories()"></md-icon>
+             </md-button>
         </div>
 
         <md-content layout="row" layout-wrap ng-cloak>
@@ -109,7 +133,7 @@
                                 <md-icon md-svg-icon="images/edit.svg"></md-icon>
                                 <md-tooltip md-direction="bottom">Edit</md-tooltip>
                             </md-button>
-                            <md-button class="md-icon-button" aria-label="More" ng-click="showMore($event,AppCtrl.activeResource,element)">
+                            <md-button class="md-icon-button" aria-label="More" ng-click="showMoreDialog($event,AppCtrl.activeResource,element)">
                                 <md-icon md-svg-icon="images/more.svg"></md-icon>
                                 <md-tooltip md-direction="bottom">Show More</md-tooltip>
                             </md-button>

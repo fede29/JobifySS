@@ -6,6 +6,9 @@ angular.module('MyApp',['ngMaterial','main'])
         $mdThemingProvider.theme('dark')
             .primaryPalette('indigo')
             .dark();
+        $mdThemingProvider.theme('delete')
+            .primaryPalette('red')
+            .accentPalette('indigo');
     })
     .run(function(){
         console.log("MyApp is ready!");

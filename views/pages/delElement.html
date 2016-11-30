@@ -1,13 +1,18 @@
-<div layout="column" layout-align="center center">
-  <md-toolbar>
+<div layout="column" layout-align="center center" md-theme="delete">
+  <md-toolbar class="deleteToolbar">
     <div class="md-toolbar-tools">
+      <md-icon md-svg-src="images/alert.svg"></md-icon>
       <h2>Delete {{ resource.name }}</h2>
+      <span flex></span>
     </div>
   </md-toolbar>
-  <md-dialog-content>  
+
+  
+  <md-dialog-content layout-padding>
   <div ng-class="md-dialog-content">
     <p>
-      Del: {{ element.name }}
+      Are you sure you <br>
+      want to delete {{ element.name }}?
     </p>
   </div>
 
@@ -15,7 +20,7 @@
     <md-button md-autofocus class="md-primary" ng-click="cancel()">
       No
     </md-button>
-    
+    <span flex></span>
     <md-button md-autofocus class="md-primary" ng-click="del()">
       Yes
     </md-button>

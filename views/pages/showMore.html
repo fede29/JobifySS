@@ -1,0 +1,29 @@
+<md-dialog aria-label="Show More">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <md-icon md-svg-src="{{resource.image}}" class="avatar"></md-icon>
+        <h2>{{element.name | uppercase}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="images/cancel.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content layout-padding>
+      <div class="md-dialog-content">
+          <p ng-show="{{element.hasOwnProperty('category')}}">Category: {{element.category}}</p>
+          <p>Description: {{element.description}}</p>
+
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="cancel()">
+        Close
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

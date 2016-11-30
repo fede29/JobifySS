@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS job_positions;
 CREATE TABLE job_positions(
 	name text NOT NULL,
 	description text,
-	category text NOT NULL,
+	category text,
 	CONSTRAINT PK_NAME_JOB PRIMARY KEY (name)
 );
 
@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS skills;
 CREATE TABLE skills(
 	name text NOT NULL,
 	description text,
-	category text NOT NULL,
+	category text,
 	CONSTRAINT PK_NAME_SKILL PRIMARY KEY (name)
 );
 

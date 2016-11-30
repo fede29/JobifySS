@@ -25,7 +25,7 @@
                   </div>
                 </md-input-container>
 
-                <md-input-container flex="50">
+                <md-input-container flex="50" ng-hide="{{resource.name === 'Categories'}}">
                   <label>Category</label>
                   <md-select name="category" ng-model="element.category" required>
                     <md-option ng-repeat="option in categories" value="{{option.name}}">{{option.name}}</md-option>
