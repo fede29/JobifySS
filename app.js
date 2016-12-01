@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 
 //require
-var pg = require('pg');
+
 var massive  = require('massive');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
