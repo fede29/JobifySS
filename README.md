@@ -2,15 +2,20 @@
 Shared Server para la aplicacion Jobify desarrollada en la materia Taller de Programacion 2
 
 ### Instalacion:
-Puede instalar el servidor manualmente utilizando el script install.sh
+Puede instalar el servidor manualmente utilizando el script install.sh:
+
+./install.sh
 
 Le instalará los paquetes necesarios para correr el servidor localmente.
+
+#### Instalación manual:
+Para la instalacion manual deberá asegurarse de instalar los paquetes necesarios para el correcto funcionamiento del servidor.
 
 sudo apt-get nodejs
 
 sudo apt-get npm
 
-### Luego instalamos los paquetes requeridos por node:
+sudo apt-get install postgresql-9.4
 
 npm install
 
@@ -18,7 +23,7 @@ npm install
 
 node app.js
 
-###Acceso mediante el browser:
+### Acceso mediante el browser:
 
 http://localhost:5000/
 
