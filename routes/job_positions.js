@@ -61,7 +61,6 @@ router.post('/job_positions/categories/:category', function(req, res, next){
         res.status(404).send("Categoria Inexistente");
     }else{
         req.db.job_positions.insert({name:req.body.name,description:req.body.description,category:req.params.category},function (err,data){
-            console.log(err);
             if (err){
                 return next(err);
             };
@@ -93,6 +92,11 @@ router.put('/job_positions/categories/:category/:name', function(req, res, next)
     var job_position = req.db.job_positions.findSync({name:req.params.name, category:req.params.category});
     if (job_position.length === 0){
         res.status(404).send("No existe el recurso solicitado");
+        return;
+    }
+    //Error 400 Incumplimiento de Precondiciones
+    if ( !req.body.hasOwnProperty("name") ||  req.body.name === "" || !req.body.hasOwnProperty("description")|| !req.body.hasOwnProperty("category")){
+        res.status(400).send("Incumplimiento de precondiciones");
         return;
     }
 	req.db.job_positions.update({name:req.params.name, category:req.params.category, description:req.body.description},function(err, data){

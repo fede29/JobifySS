@@ -10,6 +10,7 @@ var db = massive.connectSync({connectionString: connectionString});
 db.start_db([],function(err, res){
 	console.log("Empezando la Base de Datos");
     console.log(res);
+    return;
 });
 
 return;

@@ -51,7 +51,6 @@ router.post('/skills/categories/:category', function(req, res, next){
         res.status(400).send("Incumplimiento de precondiciones");
         return;
     };
-    
     //Error 404 Categoria Inexistente
     var category = req.db.categories.findSync({name:req.params.category});
     if (category.length === 0){
