@@ -1,2 +1,2 @@
-web: ./run_server.sh
+web: node app.js
 
