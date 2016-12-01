@@ -1,7 +1,10 @@
 # JobifySS
 Shared Server para la aplicacion Jobify desarrollada en la materia Taller de Programacion 2
 
-### Para correr el servidor localmente hay que instalar node y npm:
+### Instalacion:
+Puede instalar el servidor manualmente utilizando el script install.sh
+
+Le instalará los paquetes necesarios para correr el servidor localmente.
 
 sudo apt-get nodejs
 
